@@ -1,0 +1,74 @@
+version: "2"
+
+services:
+  nginx-test:
+    image: nginx:latest
+    container_name: nginx-test
+    hostname: nginx-test
+    command: ["./tmp/wait_for_it.sh","-t" ,"200" , "app6:8080", '--' , 'nginx-debug', '-g', 'daemon off;']
+    ports:
+      - 2222:80
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/upstream.conf:/etc/nginx/conf.d/upstream.conf
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./wait_for_it.sh:/tmp/wait_for_it.sh
+    depends_on:
+      - app1
+      - app2
+      - app3
+      - app4
+      - app5
+      - app6
+
+  app1:
+    image: golang:latest
+    hostname: app1
+    container_name: app1
+    command: "go run main.go"
+    working_dir: "/tmp/go-server"
+    volumes:
+      - ./go-server/:/tmp/go-server
+  app2:
+    image: golang:latest
+    hostname: app2
+    container_name: app2
+    command: "go run main.go"
+    working_dir: "/tmp/go-server"
+    volumes:
+      - ./go-server/:/tmp/go-server 
+  app3:
+    image: golang:latest
+    hostname: app3
+    container_name: app3
+    command: "go run main.go"
+    working_dir: "/tmp/go-server"
+    volumes:
+      - ./go-server/:/tmp/go-server
+  app4:
+    image: golang:latest
+    hostname: app4
+    container_name: app4
+    command: "go run main.go"
+    working_dir: "/tmp/go-server"
+    volumes:
+      - ./go-server/:/tmp/go-server
+  app5:
+    image: golang:latest
+    hostname: app5
+    container_name: app5
+    command: "go run main.go"
+    working_dir: "/tmp/go-server"
+    volumes:
+      - ./go-server/:/tmp/go-server
+  app6:
+    image: golang:latest
+    hostname: app6
+    container_name: app6
+    command: "go run main.go"
+    working_dir: "/tmp/go-server"
+    volumes:
+      - ./go-server/:/tmp/go-server
+    
+
+
